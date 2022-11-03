@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Tasks Importants</h1>
+    {% for task in tasks %}
+    {% if task.important %}
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <style>
+                a {
+                    color: inherit;
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{% url 'task_detail' task.id %}" class="link-light">
+                <div class="card-body">
+                    <h4 class="card-title">{{ task.title }}</h4>
+                    <hr>
+                    <p class="card-text">{{ task.description }}</p>
+                    <span class="card-text">Created: {{ task.create }}</span>
+                    
+                </div>
+            </a>
+            {% if not task.complete_at %}
+                <div class="card-body">
+                    <form action="{% url 'task_complete' task.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-warning btn-sm" type="submit">Complete task</button>
+                    </form>
+                </div>
+            {% endif %}
+            
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="row">
+    <h1>Tasks</h1>
+    {% for task in tasks %}
+    {% if not task.important %}
+    <div class="col-md-4">
+
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <div class="card-body">
+                <a href="{% url 'task_detail' task.id %}" class="link-light">
+                    <h4 class="card-title">{{ task.title }}</h4>
+                    <hr>
+                    <p class="card-text">{{ task.description }}</p>
+                    <span class="card-text">Created: {{ task.create }}</span>
+                </a>
+            </div>
+            {% if not task.complete_at %}
+                <div class="card-body">
+                    <form action="{% url 'task_complete' task.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-warning btn-sm" type="submit">Complete task</button>
+                    </form>
+                </div>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row d-flex justify-content-center p-5 m-5">
+    <div class="col col-md-6">
+        <div class="card text-center">
+            <div class="card-title">
+                <h1 class="text-center" >Login</h1>
+            </div>
+            <form action="{% url 'signin' %}" method="POST">
+                
+                <div class="card-body">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                </div>
+                <button class="btn btn-info my-2 my-sm-0" type="submit">Send</button>
+            </form>
+            {% if error %}
+                <div class="p-3">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <strong>{{ error }}</strong>
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
